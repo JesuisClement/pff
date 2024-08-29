@@ -63,20 +63,3 @@
       ansible.builtin.include_role:
         name: firewalld_open_port
         
-- name: jenkins install
-  hosts: jenkins
-  become: true
-  vars_files:
-    - vars/main.yml
-  tasks:
-    - name: Install jenkins
-      ansible.builtin.include_role:
-        name: jenkins_install
-
-    - name: Install Docker
-      ansible.builtin.include_role:
-        name: docker_install
-
-    - name: Open Jenkins Port
-      ansible.builtin.include_role:
-        name: firewalld_open_port

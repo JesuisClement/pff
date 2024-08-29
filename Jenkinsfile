@@ -26,7 +26,7 @@ pipeline {
             steps {
                 script {
                     sh '''
-                        docker -H tcp://10.70.50.174:2375 service update --image clemzer/pff:latest my_service
+                        docker -H tcp://10.70.50.160:2375 service update --image clemzer/pff:latest my_service
                     '''
                 }
             }

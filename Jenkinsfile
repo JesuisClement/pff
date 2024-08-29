@@ -22,15 +22,7 @@ pipeline {
                 }
             }
         }
-        stage('Deploy to Docker Swarm') {
-            steps {
-                script {
-                    sh '''
-                        docker -H tcp://10.70.50.160:2375 service update --image clemzer/pff:latest my_service
-                    '''
-                }
-            }
-        }
+
     }
     post {
         failure {

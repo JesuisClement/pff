@@ -1,0 +1,82 @@
+---
+- name: All servers
+  hosts: all
+  become: true
+  vars_files:
+    - vars/main.yml
+  tasks:
+    - name: Common OS tasks
+      ansible.builtin.include_role:
+        name: os_common
+
+- name: DOCKER ENGINE and SWARM PORTS
+  hosts: docker
+  become: true
+  vars_files:
+    - vars/main.yml
+  tasks:
+    - name: Install Docker Engine
+      ansible.builtin.include_role:
+        name: docker_install
+        
+    - name: Open Swarm ports
+      ansible.builtin.include_role:
+        name: swarm_open_ports
+
+- name: INITIALIZE SWARM
+  hosts: swarm_manager
+  become: true
+  vars_files:
+    - vars/main.yml
+  tasks:
+    - name: Initialize Swarm
+      ansible.builtin.include_role:
+        name: swarm_init
+
+- name: JOIN SWARM WORKERS
+  hosts: swarm_worker
+  become: true
+  vars_files:
+    - vars/main.yml
+  tasks:
+    - name: Join Swarm Worker
+      ansible.builtin.include_role:
+        name: swarm_join_worker
+
+- name: DEPLOY DOCKER STACK
+  hosts: swarm_manager
+  become: true
+  vars_files:
+    - vars/main.yml
+  tasks:
+    - name: Deploy Docker stack file
+      ansible.builtin.include_role:
+        name: docker_deploy_stack
+
+- name: FIREWALLD OPEN PORT
+  hosts: docker
+  become: true
+  vars_files:
+    - vars/main.yml
+  tasks:
+    - name: Open Firewalld port
+      ansible.builtin.include_role:
+        name: firewalld_open_port
+        
+- name: jenkins install
+  hosts: jenkins
+  become: true
+  vars_files:
+    - vars/main.yml
+  tasks:
+    - name: Install jenkins
+      ansible.builtin.include_role:
+        name: jenkins_install
+
+    - name: Install Docker
+      ansible.builtin.include_role:
+        name: docker_install
+
+    - name: Open Jenkins Port
+      ansible.builtin.include_role:
+        name: firewalld_open_port

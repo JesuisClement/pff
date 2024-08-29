@@ -1,0 +1,16 @@
+---
+# General
+main_user: "clem"
+published_port: '1480'
+http_port: '80'
+https_port: '443'
+
+# NFS
+nfs_networks: "10.70.50.0/24{{ nfs_opt }}"
+
+# Docker
+manager1_hostname: 'manager'
+stack_name: 'mystack'
+stack_path: "/home/{{ main_user }}/docker-stack.yml"
+port_to_open: '1480/tcp'
+
